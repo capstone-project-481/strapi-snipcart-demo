@@ -16,9 +16,9 @@
         :key="p.id"
         class="border rounded-lg bg-gray-100 hover:shadow-lg"
       >
-        <nuxt-link :to="`/api/products/${p.id}`">
+        <nuxt-link :to="`/products/${p.id}`">
           <div class="rounded-t-lg bg-white pt-2 pb-2">
-            <img class="crop mx-auto" :src="p.attributes.image" />
+            <img class="crop mx-auto" :src="p.attributes.imageURL" />
           </div>
           <div class="pl-4 pr-4 pb-4 pt-4 rounded-lg">
             <h4
@@ -31,7 +31,7 @@
                 text-gray-700
               "
             >
-              {{ p.title }}
+              {{ p.attributes.title }}
             </h4>
             <div class="mt-1 text-sm text-gray-700">{{ p.attributes.description }}</div>
           </div>
