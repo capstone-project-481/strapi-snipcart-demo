@@ -18,7 +18,7 @@
                 text-gray-700
               "
             >
-              {{ product.title }}
+              {{ product.data.attributes.title }}
             </h4>
             <div class="mt-1 text-gray-600">{{ product.data.attributes.description }}</div>
           </div>
