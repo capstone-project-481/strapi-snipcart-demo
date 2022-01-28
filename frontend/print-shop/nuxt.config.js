@@ -42,6 +42,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
   ],
+
+  //This is the environment variable Snipcart left out in the tutorial this is where Strapi is located
   env: {
     storeUrl: process.env.STORE_URL ||"http://localhost:1337" 
   },

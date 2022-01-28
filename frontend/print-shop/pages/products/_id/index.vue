@@ -3,6 +3,7 @@
     <div v-if="this.product !== null">
       <div class="flex flex-col items-center border rounded-lg bg-gray-100">
         <div class="w-full bg-white rounded-lg flex justify-center">
+
           <img :src="product.data.attributes.imageURL" width="375" />
         </div>
         <div class="w-full p-5 flex flex-col justify-between">
@@ -21,6 +22,16 @@
             </h4>
             <div class="mt-1 text-gray-600">{{ product.data.attributes.description }}</div>
           </div>
+
+          <!--Snipcart-add-item adds the current item to the cart
+            :data-item-id="product.data.id"  Gets the item id from Strapi JSON Array
+            :data-item-price="product.data.attributes.price" Gets the price from Strapi JSON Array
+            :data-item-url="`${storeUrl}${this.$route.fullPath}`"  Gets the full url to the item storeUrl is an environment variable in nuxt.config.js (thanks Snipcart for leaving that one out gg)
+            :data-item-description="product.data.attributes.description"  Gets the item description from JSON array
+            :data-item-image="product.data.attributes.imageURL"  Gets the item's image url from Strapi
+            :data-item-name="product.data.attributes.title"  Gets the item's title from Strapi
+            Removed the customFields because who really needs it and it causes more problems than it worth.  -->  
+            
           <button
             class="
               snipcart-add-item
@@ -36,6 +47,7 @@
               rounded
               shadow
             "
+            
             :data-item-id="product.data.id"
             :data-item-price="product.data.attributes.price"
             :data-item-url="`${storeUrl}${this.$route.fullPath}`"
