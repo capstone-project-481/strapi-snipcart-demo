@@ -3,7 +3,7 @@
     <div v-if="this.product !== null">
       <div class="flex flex-col items-center border rounded-lg bg-gray-100">
         <div class="w-full bg-white rounded-lg flex justify-center">
-          <img :src="product.image" width="375" />
+          <img :src="product.data.attributes.imageURL" width="375" />
         </div>
         <div class="w-full p-5 flex flex-col justify-between">
           <div>
@@ -19,7 +19,7 @@
             >
               {{ product.title }}
             </h4>
-            <div class="mt-1 text-gray-600">{{ product.description }}</div>
+            <div class="mt-1 text-gray-600">{{ product.data.attributes.description }}</div>
           </div>
           <button
             class="
@@ -36,12 +36,12 @@
               rounded
               shadow
             "
-            :data-item-id="product.id"
-            :data-item-price="product.price"
+            :data-item-id="product.data.id"
+            :data-item-price="product.data.attributes.price"
             :data-item-url="`${storeUrl}${this.$route.fullPath}`"
-            :data-item-description="product.description"
-            :data-item-image="product.image"
-            :data-item-name="product.title"
+            :data-item-description="product.data.attributes.description"
+            :data-item-image="product.data.attributes.imageURL"
+            :data-item-name="product.data.attributes.title"
             v-bind="customFields"
           >
             Add to cart
@@ -60,9 +60,27 @@ export default {
       storeUrl: process.env.storeUrl,
     };
   },
+  computed: {
+    customFields() {
+      return this.product.custom_field
+        .map(({ title, required, options }) => ({
+          name: title,
+          required,
+          options,
+        }))
+        .map((x, index) =>
+          Object.entries(x).map(([key, value]) => ({
+            [`data-item-custom${index + 1}-${key.toString().toLowerCase()}`]:
+              value,
+          }))
+        )
+        .reduce((acc, curr) => acc.concat(curr), [])
+        .reduce((acc, curr) => ({ ...acc, ...curr }));
+    }
+  },
   created: async function () {
     const res = await fetch(
-      `http://localhost:1337/${this.$route.params.id}`
+      `http://localhost:1337/api/products/${this.$route.params.id}`
     );
     this.product = await res.json();
   },
