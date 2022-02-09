@@ -1,3 +1,4 @@
+require("dotenv").config();
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -41,7 +42,13 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/dotenv'
   ],
+  axios: {
+    baseURL: process.env.STORE_URL || "http://localhost:1337"
+  },
 
   //This is the environment variable Snipcart left out in the tutorial this is where Strapi is located
   env: {
@@ -49,5 +56,28 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+  
+  //This handles authentication between Nuxt and Strapi
+  auth:{
+    strategies:{
+      local:{
+        endpoints:{
+          //Post the login information using a jwt token to api/auth/local
+          login:{
+            url: 'api/auth/local',
+            method: 'post',
+            propertyName: 'jwt'
+          },
+          //Get user information from api/users/me
+          user: {
+            url: 'api/users/me',
+            method: 'get',
+            propertyName: false
+          },
+          logout: false
+        }
+      }
+    }
+  },
 }
