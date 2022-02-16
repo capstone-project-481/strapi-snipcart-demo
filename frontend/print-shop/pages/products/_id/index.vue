@@ -50,7 +50,7 @@
             
             :data-item-id="product.data.id"
             :data-item-price="product.data.attributes.price"
-            :data-item-url="`${STORE_URL}${this.$route.fullPath}`"
+            :data-item-url="`https://snip-json.vercel.app${this.$route.fullPath}`"
             :data-item-description="product.data.attributes.description"
             :data-item-image="product.data.attributes.imageURL"
             :data-item-name="product.data.attributes.title"
@@ -76,6 +76,7 @@ export default {
     const res = await fetch(
       `http://localhost:1337/api/products/${this.$route.params.id}`
     )
+    this.product = await res.json();
 
   },
 };
